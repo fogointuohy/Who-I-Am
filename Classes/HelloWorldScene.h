@@ -3,6 +3,8 @@
 
 #include "cocos2d.h"
 
+using namespace cocos2d;
+
 class HelloWorld : public cocos2d::CCLayer
 {
 public:
@@ -17,6 +19,9 @@ public:
     
     // implement the "static node()" method manually
     CREATE_FUNC(HelloWorld);
+
+	void Update(float dt);
+	CCSprite *hello;
 };
 
 #endif // __HELLOWORLD_SCENE_H__
