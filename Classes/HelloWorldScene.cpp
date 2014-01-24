@@ -1,5 +1,6 @@
 #include "HelloWorldScene.h"
 #include "AppMacros.h"
+#include "MainMenu.h"
 USING_NS_CC;
 
 #define shifted 0x8000
@@ -55,5 +56,10 @@ void HelloWorld::Update(float dt)
 	else
 	{
 		hello->setPosition(ccp(hello->getPosition().x + 0, hello->getPosition().y));
+	}
+
+	if(GetKeyState(VK_NUMPAD0) & shifted)
+	{
+		CCDirector::sharedDirector()->replaceScene(MainMenu::scene());
 	}
 }
