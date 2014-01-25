@@ -44,9 +44,19 @@ bool HelloWorld::init()
 
 	this->addChild(tileMap);
 
+	//Padraigs stuff
+	speed = 0;
+	maxSpeed = 12;
+	jumpSpeed = 0;
+	jump = false;
+	time = 0;
+	collision = true;
+	
 	hello = CCSprite::create("hello.png");
 	hello->setPosition(ccp(100,100));
 	this->addChild(hello);
+
+	startY= hello->getPositionY();
 
 	schedule(schedule_selector(HelloWorld::Update, 0.0f));
 
@@ -55,18 +65,67 @@ bool HelloWorld::init()
 
 void HelloWorld::Update(float dt)
 {
+	PlayerMovement(dt);
+}
+
+void HelloWorld::PlayerMovement(float dt)
+{
+	time=time+dt;
+	
+
 	if(GetKeyState(VK_LEFT) & shifted)
 	{
-		hello->setPosition(ccp(hello->getPosition().x - 1.5f, hello->getPosition().y));
+		if(speed>maxSpeed)
+			speed-=0.1;
+		if(speed>-maxSpeed)
+			speed-=1;
+
+		hello->setPosition(ccp(hello->getPosition().x +speed, hello->getPosition().y));
 	}
-	if(GetKeyState(VK_RIGHT) & shifted)
+	else if(GetKeyState(VK_RIGHT) & shifted)
 	{
-		hello->setPosition(ccp(hello->getPosition().x + 1.5f, hello->getPosition().y));
+		if(speed<maxSpeed)
+			speed+=0.1;
+		if(speed<maxSpeed)
+			speed+=1;
+
+		hello->setPosition(ccp(hello->getPosition().x + speed, hello->getPosition().y));
 	}
 	else
 	{
+		for(int k=0;k<1;k++)
+		{
+			if(speed<0)
+				speed+=.5;
+			else if(speed >0)
+				speed -=.5;
+		}
+
 		hello->setPosition(ccp(hello->getPosition().x + 0, hello->getPosition().y));
 	}
+
+	if(jump&&!collision)
+	{
+		hello->setPositionY(hello->getPositionY()-jumpSpeed);
+		jumpSpeed+=1;
+
+	}
+	else
+	{
+		if((GetKeyState(VK_UP)&shifted))
+		{
+			collision = false;
+			jump=true;
+			jumpSpeed=-14;
+		}
+	}
+
+	if(GetKeyState(VK_F1) & shifted)
+	{
+		collision = true;
+	}
+	
+	
 
 	if(GetKeyState(VK_NUMPAD0) & shifted)
 	{

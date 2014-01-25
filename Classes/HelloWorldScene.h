@@ -21,7 +21,19 @@ public:
     CREATE_FUNC(HelloWorld);
 
 	void Update(float dt);
+
+	void PlayerMovement(float dt);
+
 	CCSprite *hello;
+
+private:
+	float speed;
+	float maxSpeed;
+	float jumpSpeed;
+	bool jump;
+	bool startY;
+	bool collision;
+	float time;
 	CCTMXTiledMap *tileMap;
 	CCTMXLayer *background;
 	CCSize visibleSize;
