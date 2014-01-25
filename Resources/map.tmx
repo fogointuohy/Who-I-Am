@@ -1,11 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" width="80" height="20" tilewidth="30" tileheight="30">
+<map version="1.0" orientation="orthogonal" width="200" height="20" tilewidth="30" tileheight="30">
  <tileset firstgid="1" name="tile" tilewidth="30" tileheight="30">
   <image source="tile.png" width="30" height="30"/>
  </tileset>
- <layer name="Tile Layer 1" width="80" height="20">
+ <layer name="Tile Layer 1" width="200" height="20">
   <data encoding="base64" compression="zlib">
-   eJzt2LEJAFEIBUF//01fD7eBIDPwctnQNzPP0vhHv0a/Rr9Gv0a/5kK/zfsv9NukX6Nfo1+jX6Nfo1+jX6Nfo1+jX7P9976wD7yPAMY=
+   eJzt2iESgEAMBMHc/z+NRI0DguiuWn0x4+7MzDEzMzMzM/t4wE0f0PQBTR/Q9AFNH9D0AU0f0PQBTR/Q9AFNH9D0AU0f0PQBbfs//Rv/87dv+NM92+9v3vHUmxezUQQg
   </data>
  </layer>
+ <objectgroup name="Collision" width="200" height="20">
+  <object name="Outline" x="0" y="598">
+   <polyline points="2,-2 -5,-28 390,-28 422,-28 451,-28 484,-28 510,-28 539,-28 592,-28 629,-28 841,-29 869,-29 906,-29 924,-28 944,-28 959,-28 5968,-29 5966,-478 87,-480 91,-25"/>
+  </object>
+ </objectgroup>
+ <objectgroup name="Dialogs" width="200" height="20">
+  <properties>
+   <property name="dialog_count" value="3"/>
+  </properties>
+  <object name="d1" x="691" y="240" width="99" height="328">
+   <properties>
+    <property name="message" value="Hello There"/>
+   </properties>
+  </object>
+  <object name="d2" x="2923" y="243" width="99" height="328">
+   <properties>
+    <property name="message" value="Good day sir!"/>
+   </properties>
+  </object>
+  <object name="d3" x="4895" y="236" width="99" height="328">
+   <properties>
+    <property name="message" value="Hello"/>
+   </properties>
+  </object>
+ </objectgroup>
 </map>

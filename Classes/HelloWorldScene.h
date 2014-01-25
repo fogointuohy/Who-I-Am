@@ -2,6 +2,9 @@
 #define __HELLOWORLD_SCENE_H__
 
 #include "cocos2d.h"
+#include "Box2D.h"
+#include "GLES-Render.h"
+#include "ContactListener.h"
 
 using namespace cocos2d;
 
@@ -23,8 +26,15 @@ public:
 	void Update(float dt);
 
 	void PlayerMovement(float dt);
-
+	void draw();
 	CCSprite *hello;
+
+	CCTMXTiledMap *map;
+	CCTMXLayer map_layer;
+	CCTMXObjectGroup *map_object_group;
+	GLESDebugDraw *debug_draw;
+	b2World *world;
+	static const char* valueForKey(const char *key, std::map<std::string, std::string>* dict);
 
 private:
 	float speed;
@@ -43,6 +53,28 @@ private:
 
 	CCPoint sceneForwardVector;
 	CCPoint sceneBackVector;
+
+	b2PolygonShape PlayerShape;
+	b2FixtureDef PlayerFixtureDef;
+	b2BodyDef PlayerBodyDef;
+	b2Body *PlayerBody;
+	b2Fixture* PlayerFixture;
+
+	b2CircleShape SensorPlayerShape;
+	b2FixtureDef SensorPlayerFixtureDef;
+	b2BodyDef SensorPlayerBodyDef;
+	b2Body *SensorPlayerBody;
+	b2Fixture* SensorPlayerFixture;
+
+	ContactListener *contactListener;
+
+	bool doneTransfer;
+
+	CCPoint camPos;
+	CCPoint playerPos;
+	bool facingRight;
+	bool facingLeft;
+
 };
 
 #endif // __HELLOWORLD_SCENE_H__
