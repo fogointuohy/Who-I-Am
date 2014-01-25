@@ -26,8 +26,13 @@ public:
 	void Update(float dt);
 
 	void PlayerMovement(float dt);
+
+	CCSprite *dialog1;
+	CCSprite *maurice;
+
 	void draw();
 	CCSprite *hello;
+
 
 	CCTMXTiledMap *map;
 	CCTMXLayer map_layer;
@@ -39,17 +44,14 @@ public:
 private:
 	float speed;
 	float maxSpeed;
-	float jumpSpeed;
-	bool jump;
 	bool startY;
-	bool collision;
 	float time;
 	CCTMXTiledMap *tileMap;
 	CCTMXLayer *background;
 	CCSize visibleSize;
 	CCPoint origin;
 	bool jumped;
-
+	bool dialogOn;
 
 	CCPoint sceneForwardVector;
 	CCPoint sceneBackVector;
@@ -72,8 +74,20 @@ private:
 
 	CCPoint camPos;
 	CCPoint playerPos;
+	CCPoint playerPosy;
 	bool facingRight;
 	bool facingLeft;
+
+	bool save;
+	bool dontsave;
+
+	CCLabelTTF *saveLabel;
+	CCLabelTTF *dontSaveLabel;
+
+	int saveMenuCounter;
+	bool disabled;
+	bool down;
+	bool up;
 
 };
 

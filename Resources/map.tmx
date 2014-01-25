@@ -1,36 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" width="200" height="20" tilewidth="30" tileheight="30">
+<map version="1.0" orientation="orthogonal" width="200" height="100" tilewidth="30" tileheight="30">
  <tileset firstgid="1" name="tile" tilewidth="30" tileheight="30">
   <image source="tile.png" width="30" height="30"/>
  </tileset>
- <layer name="Tile Layer 1" width="200" height="20">
+ <layer name="Tile Layer 1" width="200" height="100">
   <data encoding="base64" compression="zlib">
-   eJzt2iESgEAMBMHc/z+NRI0DguiuWn0x4+7MzDEzMzMzM/t4wE0f0PQBTR/Q9AFNH9D0AU0f0PQBTR/Q9AFNH9D0AU0f0PQBbfs//Rv/87dv+NM92+9v3vHUmxezUQQg
+   eJzt3OFumzAAhdHk/V96P7chrjGxAducI1lro5SA8VdIW+37+Xy+hmEYhmEYhmEYNw/gL31Apg/I9AGZPiDTB2T6gEwfkOkDMn1Apg/I9AGZPiDTB2T6gDJ9QKYPyPQBmT4g0wdk+oBMH5DpAzJ9QKYPyPQBmT4g0wdk+oBMH5DpAzJ9QKYPyPQBmT4g8380QKYPyPQBmT4g0wc9rbaGtAGZPiDTB2T64E3OrnN9ULL9+U3vcTd9MJOr+2ttdPs8rbCyluuHawmr0wdk+oBMH5DpAzJ98Ba/rFt98Ba/rFN9sLqWdaoPVteyPvXBKn79m5CjbfbYB3jaFetQHzztrr8d/HXfzj5fH7To2cNo63DU/WIe33/+nWHNn7HCMfCsldeLPt5tlfugq7ztePmf812mj7W9/ft/K/O1tqP3zpSZt7U5l230MS/3Ttczp/P6bj52DvvTx7ycp+vp4369fufgPF3PvN/vaH6vOCfO6W/zqI/7PTG/29dM53n7nmZ2retaH32Mfl9U08f2saf3uVWv6+4I5292o89ZbR/p85qeRtNj3/TRx+hz1trH3uelx668dtZur0fP+qgz4j3TGS19lI6x9rHt6x7NX+1cl/arZv+PzHiunzD7nKT3Fek5e89L67P0WqV92dv29uOabR9dw1roo87sc7J3fo/WZM0x/9pH6et69rH32Jl1/vY+au6bVp6To3uno+OvXZtH2665LpVeLz3Wev7etBb2vOlYz0j3+bXXmNbvM73ui1qt0MeZa8Dsx3qXM/cfZ79mJiusmdn2dyWzrpla+oBsxj5m21/mNWsfcIfR+xh9/1jb6OtvpH3hfUbow89fGdUIa1IDjEofkF3Vh99hs4Ir+4DZ9ejDNYFV9eoDVnT2fYJrBW/yByw7BvI=
   </data>
  </layer>
- <objectgroup name="Collision" width="200" height="20">
-  <object name="Outline" x="0" y="598">
-   <polyline points="2,-2 -5,-28 390,-28 422,-28 451,-28 484,-28 510,-28 539,-28 592,-28 629,-28 841,-29 869,-29 906,-29 924,-28 944,-28 959,-28 5968,-29 5966,-478 87,-480 91,-25"/>
-  </object>
- </objectgroup>
- <objectgroup name="Dialogs" width="200" height="20">
-  <properties>
-   <property name="dialog_count" value="3"/>
-  </properties>
-  <object name="d1" x="691" y="240" width="99" height="328">
-   <properties>
-    <property name="message" value="Hello There"/>
-   </properties>
-  </object>
-  <object name="d2" x="2923" y="243" width="99" height="328">
-   <properties>
-    <property name="message" value="Good day sir!"/>
-   </properties>
-  </object>
-  <object name="d3" x="4895" y="236" width="99" height="328">
-   <properties>
-    <property name="message" value="Hello"/>
-   </properties>
+ <objectgroup name="Collision" width="200" height="100">
+  <object name="Outline" x="6" y="2997">
+   <polyline points="0,0 173,-27 500,-24 500,-88 648,-88 652,-142 976,-145 985,-236 1194,-233 1197,-297 1339,-297 1348,-355 1461,-355 1464,-445 1909,-448 1918,-506 2206,-506 2215,-594 2448,-594 2458,-688 2779,-688 2782,-779 3324,-779 3327,-867 3594,-867 3600,-958 3833,-961 3833,-1018 4339,-1018 4339,-1106 4458,-1103 4461,-1136 5000,-1133 5003,-1194 5182,-1197 5182,-1255 5239,-1255 5245,-1318 5385,-1318"/>
   </object>
  </objectgroup>
 </map>

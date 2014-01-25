@@ -37,26 +37,34 @@ bool HelloWorld::init()
     
     visibleSize = CCDirector::sharedDirector()->getVisibleSize();
     origin = CCDirector::sharedDirector()->getVisibleOrigin();
-
-	jumped = false;
-
-	//Padraigs stuff
-	speed = 0;
-	maxSpeed = 12;
-	jumpSpeed = 0;
-	jump = false;
+	dialogOn = false;
 	
-	hello = CCSprite::create("Player (2).png");
+	//Maurice
+	maurice=CCSprite::create("maurice.png");
+	maurice->setPosition(ccp(150,100));
+	this->addChild(maurice);
+
+	//Dialog Test
+	dialog1 = CCSprite::create("dialog1.png");
+	dialog1->setPosition(ccp(-150,-150));
+	this->addChild(dialog1);
+	saveLabel = CCLabelTTF::create("Save Here", "Arial", 6.0f);
+	saveLabel->setPosition(ccp(-150,-150));
+	this->addChild(saveLabel);
+	dontSaveLabel = CCLabelTTF::create("Dont save her", "Arial", 6.0f);
+	dontSaveLabel->setPosition(ccp(-150,-150));
+	this->addChild(dontSaveLabel);
+
+	
+	hello = CCSprite::create("player.png");
 	hello->setPosition(ccp(100,100));
 	this->addChild(hello);
-
-	startY= hello->getPositionY();
 
 	b2Vec2 gravity = b2Vec2(0,-20);
 		
 	world = new b2World(gravity);
 	debug_draw = new GLESDebugDraw( 32.0f );
-	world->SetDebugDraw(debug_draw);
+	//world->SetDebugDraw(debug_draw);
 
 	map = CCTMXTiledMap::create("map.tmx");
 	map->setPosition(ccp(origin.x, origin.y));
@@ -69,7 +77,6 @@ bool HelloWorld::init()
 
 	dictionary = map_object_group->objectNamed("Outline");
 	string = (*dictionary->valueForKey("polyline"));
-
 
 	std::string parse = string.getCString();
 	std::istringstream is(parse);
@@ -96,7 +103,7 @@ bool HelloWorld::init()
 	boundariesFixtureShape.friction = 3;
 	boundariesFixtureShape.userData = (void*)1;
 
-	boundariesBodayBef.position.Set(origin.x, (30+origin.y) / PTM_RATIO /CC_CONTENT_SCALE_FACTOR());
+	boundariesBodayBef.position.Set(origin.x, (30 + origin.y) / PTM_RATIO /CC_CONTENT_SCALE_FACTOR());
 		
 	b2Body* bound_body = world->CreateBody(&boundariesBodayBef);
 	bound_body->CreateFixture(&boundariesFixtureShape);
@@ -138,7 +145,14 @@ bool HelloWorld::init()
 
 	camPos = CCPoint(this->getPositionX() + visibleSize.width, 0);
 
-	playerPos = CCPoint(visibleSize.width,0);
+	playerPos = CCPoint(visibleSize.width,visibleSize.height);
+	playerPosy = CCPoint(visibleSize.width,visibleSize.height);
+
+	saveMenuCounter= 0;
+
+	disabled = false;
+	down = false;
+	up = true;
 
 	schedule(schedule_selector(HelloWorld::Update, 0.0f));
 
@@ -147,8 +161,90 @@ bool HelloWorld::init()
 
 void HelloWorld::Update(float dt)
 {
+	//Can't move if we're talking
+	if(!dialogOn)
+	{
+		PlayerMovement(dt);
+	}
+	else
+	{
+
+		//TODO
+		//Make this block so that it switches the dialog box based on who you talked to
+		//Also if it was a special character, accept an item from them
+		dialog1->setPosition(ccp(150,150));
+
+		saveLabel->setPosition(ccp(dialog1->getPositionX() + 80 ,dialog1->getPositionY()));
+		dontSaveLabel->setPosition(ccp(saveLabel->getPositionX(),saveLabel->getPositionY() -20));
+
+		if(saveMenuCounter == 0)
+		{
+			up = true;
+			down=false;
+			saveLabel->setColor(ccc3(255,255,0));
+			dontSaveLabel->setColor(ccc3(255,255,255));
+		}
+		else if(saveMenuCounter == 1)
+		{
+			up = false;
+			down = true;
+			dontSaveLabel->setColor(ccc3(255,255,0));
+			saveLabel->setColor(ccc3(255,255,255));
+		}
+
+		if(GetKeyState(VK_UP) & shifted)
+		{
+			if(!disabled)
+			{
+				if(!up)
+				{
+					saveMenuCounter--;
+					disabled =true;
+				}
+			}
+		}
+		else if(GetKeyState(VK_DOWN) & shifted)
+		{
+			if(!disabled)
+			{
+				if(!down)
+				{
+					saveMenuCounter++;
+					disabled =true;
+				}
+			}
+		}
+		else 
+		{
+			disabled = false;
+		}
+	}
+
+	//If we're near, we can talk, then we quit the conversation
+	if((GetKeyState(0x5A) & shifted)&&((hello->getPositionX()>maurice->getPositionX()&&hello->getPositionX()<maurice->getPositionX()+50)
+	||(hello->getPositionX()<maurice->getPositionX()&&hello->getPositionX()>maurice->getPositionX()-50)))
+	{
+		dialogOn=true;
+	}
+	if(dialogOn)
+	{
+		if((GetKeyState(0x58) & shifted))
+		{
+			if(saveMenuCounter == 0)
+			{
+				CCDirector::sharedDirector()->replaceScene(MainMenu::scene());
+			}
+			else if(saveMenuCounter == 1)
+			{
+				dialogOn=false;
+				saveLabel->setPosition(ccp(-150,-150));
+				dontSaveLabel->setPosition(ccp(-150,-150));
+				dialog1->setPosition(ccp(-150,-150));
+			}
+		}
+	}
+	
 	world->Step(dt,10,10);
-	PlayerMovement(dt);
 }
 
 void HelloWorld::PlayerMovement(float dt)
@@ -165,6 +261,7 @@ void HelloWorld::PlayerMovement(float dt)
 		float force = PlayerBody->GetMass() * velChange / (1/60.0); //f = mv/t
 		PlayerBody->ApplyForce( b2Vec2(force,0), PlayerBody->GetWorldCenter() );
 		hello->setFlipX(1);
+
 	}
 	else if(GetKeyState(VK_RIGHT) & shifted)
 	{
@@ -178,6 +275,7 @@ void HelloWorld::PlayerMovement(float dt)
 		float force = PlayerBody->GetMass() * velChange / (1/60.0); //f = mv/t
 		PlayerBody->ApplyForce( b2Vec2(force,0), PlayerBody->GetWorldCenter() );
 		hello->setFlipX(0);
+
 	}
 
 	hello->setPosition(ccp(PlayerBody->GetPosition().x * PTM_RATIO, PlayerBody->GetPosition().y * PTM_RATIO));
@@ -197,7 +295,7 @@ void HelloWorld::PlayerMovement(float dt)
 		if(hello->getPositionX() > playerPos.x)
 		{
 			playerPos = CCPoint(visibleSize.width + playerPos.x,0);
-			this->setPosition(ccp(this->getPositionX() - visibleSize.width,0));			
+			this->setPositionX(this->getPositionX() - visibleSize.width);			
 		}
 	}
 
@@ -207,8 +305,18 @@ void HelloWorld::PlayerMovement(float dt)
 		if(hello->getPositionX() < playerPos.x - visibleSize.width)
 		{
 			playerPos = CCPoint(playerPos.x - visibleSize.width,0);
-			this->setPosition(ccp(this->getPositionX() + visibleSize.width,0));
+			this->setPositionX(this->getPositionX() + visibleSize.width);
 		}
+	}
+	if(hello->getPositionY() > playerPosy.y)
+	{
+		playerPosy = CCPoint(0,visibleSize.height + playerPosy.y);
+		this->setPositionY(this->getPositionY() - visibleSize.height);
+	}
+	if(hello->getPositionY() < playerPosy.y -visibleSize.height)
+	{
+		playerPosy = CCPoint(0,playerPosy.y - visibleSize.height);
+		this->setPositionY(this->getPositionY() + visibleSize.height);
 	}
 
 	if(GetKeyState(VK_NUMPAD0) & shifted)
