@@ -22,6 +22,15 @@ public:
 
 	void Update(float dt);
 	CCSprite *hello;
+	CCTMXTiledMap *tileMap;
+	CCTMXLayer *background;
+	CCSize visibleSize;
+	CCPoint origin;
+	bool jumped;
+
+
+	CCPoint sceneForwardVector;
+	CCPoint sceneBackVector;
 };
 
 #endif // __HELLOWORLD_SCENE_H__

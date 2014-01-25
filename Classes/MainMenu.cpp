@@ -113,7 +113,7 @@ void MainMenu::Update(float dt)
 		disabled = false;
 	}
 
-	if(GetKeyState(VK_NUMPAD5) & shifted)
+	if(GetKeyState(VK_RETURN) & shifted)
 	{
 		if(items == START)
 		{

@@ -31,8 +31,18 @@ bool HelloWorld::init()
         return false;
     }
     
-    CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
-    CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
+    visibleSize = CCDirector::sharedDirector()->getVisibleSize();
+    origin = CCDirector::sharedDirector()->getVisibleOrigin();
+
+	tileMap = new CCTMXTiledMap();
+	tileMap->initWithTMXFile("map.tmx");
+	background = tileMap->layerNamed("Tile Layer 1");
+		
+	jumped = false;
+
+	tileMap->setPosition(ccp(origin.x,origin.y));
+
+	this->addChild(tileMap);
 
 	hello = CCSprite::create("hello.png");
 	hello->setPosition(ccp(100,100));
@@ -47,11 +57,11 @@ void HelloWorld::Update(float dt)
 {
 	if(GetKeyState(VK_LEFT) & shifted)
 	{
-		hello->setPosition(ccp(hello->getPosition().x - .5f, hello->getPosition().y));
+		hello->setPosition(ccp(hello->getPosition().x - 1.5f, hello->getPosition().y));
 	}
 	if(GetKeyState(VK_RIGHT) & shifted)
 	{
-		hello->setPosition(ccp(hello->getPosition().x + .5f, hello->getPosition().y));
+		hello->setPosition(ccp(hello->getPosition().x + 1.5f, hello->getPosition().y));
 	}
 	else
 	{
