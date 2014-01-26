@@ -5,7 +5,7 @@
 #include "Box2D.h"
 #include "GLES-Render.h"
 #include "ContactListener.h"
-
+#include "SimpleAudioEngine.h"
 using namespace cocos2d;
 
 class HelloWorld : public cocos2d::CCLayer
@@ -30,6 +30,10 @@ public:
 	CCSprite *dialog1;
 	CCSprite *maurice;
 
+	CCSprite *dialogPrompt;
+
+
+
 	void draw();
 	CCSprite *hello;
 
@@ -52,6 +56,9 @@ private:
 	CCPoint origin;
 	bool jumped;
 	bool dialogOn;
+
+	CCLabelTTF* customFont;
+
 
 	CCPoint sceneForwardVector;
 	CCPoint sceneBackVector;

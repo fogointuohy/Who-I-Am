@@ -34,27 +34,32 @@ bool HelloWorld::init()
     {
         return false;
     }
+
+
+	customFont = CCLabelTTF::create("Hello", "M04_FATAL FURY", 10, 
+                                      CCSizeMake(100, 50), kCCTextAlignmentCenter);
+	customFont->setPosition(ccp(-150,-150));
+	
     
     visibleSize = CCDirector::sharedDirector()->getVisibleSize();
     origin = CCDirector::sharedDirector()->getVisibleOrigin();
-	dialogOn = false;
-	
-	//Maurice
-	maurice=CCSprite::create("maurice.png");
-	maurice->setPosition(ccp(150,100));
-	this->addChild(maurice);
 
-	//Dialog Test
-	dialog1 = CCSprite::create("dialog1.png");
-	dialog1->setPosition(ccp(-150,-150));
-	this->addChild(dialog1);
-	saveLabel = CCLabelTTF::create("Save Here", "Arial", 6.0f);
+	dialogOn = false;
+
+	saveLabel = CCLabelTTF::create("Ok", "M04_FATAL FURY", 6.0f);
 	saveLabel->setPosition(ccp(-150,-150));
 	this->addChild(saveLabel);
-	dontSaveLabel = CCLabelTTF::create("Dont save her", "Arial", 6.0f);
+	dontSaveLabel = CCLabelTTF::create("This is weird", "M04_FATAL FURY", 6.0f);
 	dontSaveLabel->setPosition(ccp(-150,-150));
 	this->addChild(dontSaveLabel);
 
+	dialogOn = false;
+
+	
+	//Dialog Prompt
+	dialogPrompt = CCSprite::create("ztemp.png");
+	dialogPrompt->setPosition(ccp(-150,-150));
+	this->addChild(dialogPrompt);
 	
 	hello = CCSprite::create("player.png");
 	hello->setPosition(ccp(100,100));
@@ -67,25 +72,64 @@ bool HelloWorld::init()
 	world->SetDebugDraw(debug_draw);
 
 	map = CCTMXTiledMap::create("Level1.tmx");
-	map->setPosition(ccp(origin.x, origin.y));
-	map_object_group = map->objectGroupNamed("Collision");
-
-	this->addChild(map);
 
 	CCDictionary *dictionary;
 	CCString string;
 
-	/*dictionary = map_object_group->objectNamed("Outline");
-	string = (*dictionary->valueForKey("polyline"));*/
+	int num_ob_col;
+	int num_ob_npc;
+
+
+	map->setPosition(ccp(origin.x, origin.y));
+	map_object_group = map->objectGroupNamed("NPC");
+
+	dictionary = map_object_group->getProperties();
+	num_ob_npc = (*dictionary->valueForKey("num_npc")).intValue();
+
+	//Maurice
+	
+
+	CCPoint position;
+
+	for (int j = 0; j < num_ob_npc; j++)
+	{
+		CCString * test = CCString::create("NPC" + std::to_string(j));
+		dictionary = map_object_group->objectNamed(test->getCString());
+
+		float actualX = (*dictionary->valueForKey("x")).floatValue();
+		float actualY = (*dictionary->valueForKey("y")).floatValue();
+
+		position.x = actualX / CC_CONTENT_SCALE_FACTOR();
+		position.y = (actualY + origin.y) / CC_CONTENT_SCALE_FACTOR();
+
+		maurice=CCSprite::create("maurice.png");
+		maurice->setPosition(ccp(position.x,position.y));
+		this->addChild(maurice);
+	}
+
+
+	map->setPosition(ccp(origin.x, origin.y));
+	map_object_group = map->objectGroupNamed("Collision");
+
+	dictionary = map_object_group->getProperties();
+	num_ob_col = (*dictionary->valueForKey("num_col")).intValue();
+
+	this->addChild(map);
+
+	//Dialog Test
+	dialog1 = CCSprite::create("dialogBox.png");
+	dialog1->setPosition(ccp(-150,-150));
+	this->addChild(dialog1);
+	this->addChild(customFont);
 
 	std::string parse = string.getCString();
 	std::istringstream is(parse);
 	int i = 0;
 	b2Vec2 vertices[300];
 
-	CCPoint position;
+	CocosDenshion::SimpleAudioEngine::sharedEngine()->playBackgroundMusic("GGJ2014.wav",true);
 
-	for (int j = 0; j < 4; j++)
+	for (int j = 0; j < num_ob_col; j++)
 	{
 		CCString * test = CCString::create("Outline" + std::to_string(j));
 		dictionary = map_object_group->objectNamed(test->getCString());
@@ -125,6 +169,7 @@ bool HelloWorld::init()
 		boundariesFixtureShape.friction = 3;
 		boundariesFixtureShape.userData = (void*)1;
 
+	boundariesBodayBef.position.Set(origin.x, (30 + origin.y) / PTM_RATIO /CC_CONTENT_SCALE_FACTOR());
 		boundariesBodayBef.position.Set(position.x,position.y);
 		
 		b2Body* bound_body = world->CreateBody(&boundariesBodayBef);
@@ -186,7 +231,6 @@ bool HelloWorld::init()
 
 void HelloWorld::Update(float dt)
 {
-	//Can't move if we're talking
 	if(!dialogOn)
 	{
 		PlayerMovement(dt);
@@ -197,9 +241,15 @@ void HelloWorld::Update(float dt)
 		//TODO
 		//Make this block so that it switches the dialog box based on who you talked to
 		//Also if it was a special character, accept an item from them
+
+		dialog1->setPosition(ccp(maurice->getPositionX()+30,maurice->getPositionY()+120));
+		customFont->setString("Explore this lovely prototype\nYo");
+		customFont->setPosition(ccp(maurice->getPositionX()-10,maurice->getPositionY()+50));
+
 		dialog1->setPosition(ccp(150,150));
 
-		saveLabel->setPosition(ccp(dialog1->getPositionX() + 80 ,dialog1->getPositionY()));
+		saveLabel->setPosition(ccp(dialog1->getPositionX() + 130,dialog1->getPositionY()));
+
 		dontSaveLabel->setPosition(ccp(saveLabel->getPositionX(),saveLabel->getPositionY() -20));
 
 		if(saveMenuCounter == 0)
@@ -243,7 +293,35 @@ void HelloWorld::Update(float dt)
 		{
 			disabled = false;
 		}
+
 	}
+
+	//If we're near, we can talk, then we quit the conversation
+	if((hello->getPositionX()>maurice->getPositionX()&&hello->getPositionX()<maurice->getPositionX()+50)
+	||(hello->getPositionX()<maurice->getPositionX()&&hello->getPositionX()>maurice->getPositionX()-50))
+	{
+		if(!dialogOn)
+			dialogPrompt->setPosition(ccp(maurice->getPositionX(),maurice->getPositionY()+20));
+
+		if(GetKeyState(0x5A) & shifted)
+		{
+			dialogOn=true;
+			dialogPrompt->setPosition(ccp(-150,-150));
+		}
+	}
+	else
+	{
+		dialogPrompt->setPosition(ccp(-150,-150));
+	}
+
+	world->Step(dt,10,10);
+	//PlayerMovement(dt);
+
+
+
+	if((GetKeyState(0x58) & shifted)&&dialogOn)
+	{
+		if(saveMenuCounter == 0)
 
 	//If we're near, we can talk, then we quit the conversation
 	if((GetKeyState(0x5A) & shifted)&&((hello->getPositionX()>maurice->getPositionX()&&hello->getPositionX()<maurice->getPositionX()+50)
@@ -257,7 +335,13 @@ void HelloWorld::Update(float dt)
 		{
 			if(saveMenuCounter == 0)
 			{
-				CCDirector::sharedDirector()->replaceScene(MainMenu::scene());
+				//CCDirector::sharedDirector()->replaceScene(MainMenu::scene());
+				dialogOn=false;
+				saveLabel->setPosition(ccp(-150,-150));
+				dontSaveLabel->setPosition(ccp(-150,-150));
+				dialog1->setPosition(ccp(-150,-150));
+
+				customFont->setPosition(ccp(-150,-150));
 			}
 			else if(saveMenuCounter == 1)
 			{
@@ -265,15 +349,21 @@ void HelloWorld::Update(float dt)
 				saveLabel->setPosition(ccp(-150,-150));
 				dontSaveLabel->setPosition(ccp(-150,-150));
 				dialog1->setPosition(ccp(-150,-150));
+
+				customFont->setPosition(ccp(-150,-150));
+			}
+	}
+	
+	CCLog("%d",saveMenuCounter);
+	world->Step(dt,10,10);
+
 			}
 		}
 	}
-	
-	world->Step(dt,10,10);
-}
-
 void HelloWorld::PlayerMovement(float dt)
 {
+
+
 	if(GetKeyState(VK_LEFT) & shifted)
 	{
 		facingLeft = true;
@@ -296,6 +386,7 @@ void HelloWorld::PlayerMovement(float dt)
 		b2Vec2 vel = PlayerBody->GetLinearVelocity();
 		float desiredVel = 4;
 
+
 		float velChange = desiredVel - vel.x;
 		float force = PlayerBody->GetMass() * velChange / (1/60.0); //f = mv/t
 		PlayerBody->ApplyForce( b2Vec2(force,0), PlayerBody->GetWorldCenter() );
@@ -314,11 +405,15 @@ void HelloWorld::PlayerMovement(float dt)
 		}
 	}
 
+	
+
 	if(facingRight)
+
 	{
 		facingLeft = false;
 		if(hello->getPositionX() > playerPos.x)
 		{
+			
 			playerPos = CCPoint(visibleSize.width + playerPos.x,0);
 			this->setPositionX(this->getPositionX() - visibleSize.width);			
 		}

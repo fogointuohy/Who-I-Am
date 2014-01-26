@@ -26,6 +26,8 @@ public:
 	enum menuItems { START, ABOUT, CREDITS };
 
 	menuItems items;
+
+	CCSprite *background;
 };
 
 #endif // __MAIN_MENU_SCENE_H__

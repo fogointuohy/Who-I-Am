@@ -3,23 +3,89 @@
  <tileset firstgid="1" name="tile" tilewidth="30" tileheight="30">
   <image source="tile.png" width="30" height="30"/>
  </tileset>
- <layer name="Tile Layer 1" width="170" height="180">
-  <data encoding="base64" compression="zlib">
-   eJzt0gEJADAQxLA//6ZnY4UE6qC7u0mB4Gc+pcCnFPiUAp9S4FMKfEqBTynwKQU+pcCnFPiUAp9S4FMKfEqBTynwKQU+pcCnFPiUAp9S4FMKfEqBTynwKQU+pcCnFPiUAp9S4FMKfEqBTynwKQU+pcCnFPiUAp9S4FMKfEqBTynwKQU+pcCnFPiUAp9S4FMKfEqBTynwKQU+pcCnFPiUAp9S4FMKfEqBTynwKQU+pcCnFPiUAp9S4FMKfEqBTynwKQU+pcCnFPiUAp9S4FMKfEqBTynwKQU+pcCnFPiUAp9S4FMKfEqBTynwKQU+pcCnFPiUAp9S4FMKfEqBTynwKQU+pcCnFPiUAp9S4FMKfEqBTynwKQU+pcCnFPiUAp9S4FMKfEqBTynwKQU+pcCnFPiUAp9S4FMKfEqBTynwKQU+pcCnFPiUAp9S4FMKfEqBTynwKQU+pcCnFPiUAp9S4FMKfEqBTynwKQU+pcCnFPiUAp9S4FMKfEqBTynwKQU+pcCnFPiUAp9S4FMKfEqBTynwKQU+pcCnFPiUAp9S4FMKfEqBTynwKQU+pcCnFPiUAp9S4FMKfEqBTynwKQU+pcCnFPiUAp9S4FMKfEqBTynwKQU+pcCnFPiUAp9S4FMKfEqBTynwKQU+pWBSpAf9NQK5
-  </data>
- </layer>
+ <tileset firstgid="2" name="big" tilewidth="30" tileheight="30">
+  <image source="big.png" width="5120" height="5400"/>
+ </tileset>
  <objectgroup name="Collision" width="170" height="180">
+  <properties>
+   <property name="num_col" value="21"/>
+  </properties>
   <object name="Outline0" x="3392" y="5328">
-   <polyline points="58,-199 246,-273 303,-273 429,-329 540,-392 603,-499 696,-663 800,-704 853,-748 950,-825"/>
+   <polyline points="58,-199 246,-273 303,-273 429,-329 540,-392 677,-441 835,-514 949,-605 1024,-691 1106,-776"/>
   </object>
   <object name="Outline1" x="96" y="5248">
    <polyline points="0,0 336,32 464,32 528,16 688,-32 848,-112 1152,-64 1296,-16 1568,32 1712,16 1856,0 2000,-64 2144,-128 2288,-176 2384,-240 2499,-335 2602,-441 2796,-441 2927,-374 3064,-235 3232,-192 3424,-240"/>
   </object>
   <object name="Outline2" x="4504" y="4485">
-   <polyline points="-103,-47 -21,3 96,46 150,46 191,41 237,23 314,-27 355,-77 401,-150 442,-214 483,-282"/>
+   <polyline points="28,162 110,118 165,97 150,46 191,41 237,23 314,-27 355,-77 401,-150 442,-214 483,-282"/>
   </object>
   <object name="Outline3" x="4085" y="4372">
-   <polyline points="185,36 46,34 -106,36 -214,29 -282,34 -355,23 -442,18 -510,-9 -565,-37 -599,-51 -635,-53 -674,-48 -738,-23 -824,18 -870,41 -979,41 -1066,18 -1139,22 -1242,49 -1356,72 -1438,132 -1469,200 -1537,344 -1719,554 -2045,619 -2568,601 -2882,528"/>
+   <polyline points="185,36 46,34 -106,36 -214,29 -282,34 -355,23 -442,18 -510,-9 -565,-37 -599,-51 -635,-53 -674,-48 -738,-23 -824,18 -870,41 -979,41 -1066,18 -1139,22 -1242,49 -1356,72 -1438,132 -1469,200 -1537,344 -1719,554 -2029,681 -2648,710 -2893,596"/>
+  </object>
+  <object name="Outline4" x="849" y="5184">
+   <polyline points="-56,-200 116,-263 199,-233 225,-171 272,-191 310,-193 360,-211"/>
+  </object>
+  <object name="Outline5" x="1402" y="4844">
+   <polyline points="0,0 -40,-32"/>
+  </object>
+  <object name="Outline6" x="4658" y="4336">
+   <polyline points="59,104 -214,-65 -383,29"/>
+  </object>
+  <object name="Outline7" x="3408" y="4322">
+   <polyline points="0,0 -221,-489"/>
+  </object>
+  <object name="Outline8" x="3530" y="4230">
+   <polyline points="0,0 144,-5"/>
+  </object>
+  <object name="Outline9" x="3715" y="4111">
+   <polyline points="0,0 144,-14"/>
+  </object>
+  <object name="Outline10" x="3913" y="3976">
+   <polyline points="0,0 250,0"/>
+  </object>
+  <object name="Outline11" x="3753" y="3883">
+   <polyline points="0,0 -498,-81 -734,0 -1027,-74"/>
+  </object>
+  <object name="Outline12" x="4210" y="3908">
+   <polyline points="0,0 349,-77 588,-20"/>
+  </object>
+  <object name="Outline13" x="4640" y="3852">
+   <polyline points="0,0 207,-92 306,-585"/>
+  </object>
+  <object name="Outline14" x="4502" y="3679">
+   <polyline points="0,0 -1794,-268"/>
+  </object>
+  <object name="Outline15" x="4617" y="3728">
+   <polyline points="0,0 -108,-50"/>
+  </object>
+  <object name="Outline16" x="4217" y="3573">
+   <polyline points="-164,-63 241,-41 347,-119"/>
+  </object>
+  <object name="Outline17" x="4613" y="3408">
+   <polyline points="0,0 212,-47"/>
+  </object>
+  <object name="Outline18" x="4615" y="3309">
+   <polyline points="0,0 -218,-50"/>
+  </object>
+  <object name="Outline19" x="4755" y="3192">
+   <polyline points="0,0 142,-47"/>
+  </object>
+  <object name="Outline20" x="4946" y="3273">
+   <polyline points="0,0 106,-975"/>
+  </object>
+  <object name="Outline21" x="4437" y="3064">
+   <polyline points="0,0 162,88"/>
   </object>
  </objectgroup>
+ <objectgroup name="NPC" width="170" height="180">
+  <properties>
+   <property name="num_npc" value="1"/>
+  </properties>
+  <object name="NPC0" x="301" y="5158" width="45" height="51"/>
+ </objectgroup>
+ <layer name="Tile Layer 1" width="170" height="180">
+  <data encoding="base64" compression="zlib">
+   eJzt3c1Km0EYhuGvfzaIiKt6SqWUHkCMMUnTHJZI6QEUERGPS0prf2e23YzFwswD1wWzc/EiNxMXk9dpAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD4f3bz3hNAm05JcHTSewJou9UpAbaL3hNA2+Fp7wmg7UanBNgse08AbQdnvSeAtmudEmC16j0BtO2ve08AbVc6JcBy03sCaJu97z0BtF3qlACLbe8JoG3vQ+8JoO2zTgkw3/WeANp0SgKdkkCnJNApCXRKAp2SQKck0CkJdEoCnZJApyTwro8E3vWRwLs+Evj7lAQ6JYFOSaBTEuiUBDolgU5JoFMS6JQEb+zrI8CdTglwbl8fAV5710cAn/sk8LlPAp/7JHCfksB9SoLdvPcE0HZ00nsCaLvVKQG2i94TQNvhae8JoO1GpwTYLHtPAG0HZ70ngLZrnRJgteo9AbTtr3tPAG1XOiXA0jtpAsy86yPApU4JYD8/CeznJ4H9/CSwX4oE77xDIcBXnRLgo3coBHi76j0BtH1ZTdO970gxuIv1NH3y3RMGV/dJu08Z3Z1OCVD3oOmU0dU9aDpldDolgU5JoFMS6JQEOiWBTkmgUxLolAQ6JYFOSaBTEuiUBDolgU5J4P0pCep96vtRjK7ep3aiMLp6n9qJwujqfWonCqOr96mdKIyu3qd1JwqMrN6nF3/9b55vrx5+7sv5Xs6Pcn6W86uc3+VMx9P0pJyn5Tw7/reffV7Oi3L2ynlZzuy4x2+GkdT79DHtPfTndcpj1Pv0D2ZMrFg=
+  </data>
+ </layer>
 </map>
