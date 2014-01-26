@@ -66,7 +66,7 @@ bool HelloWorld::init()
 	debug_draw = new GLESDebugDraw( 32.0f );
 	world->SetDebugDraw(debug_draw);
 
-	map = CCTMXTiledMap::create("map.tmx");
+	map = CCTMXTiledMap::create("Level1.tmx");
 	map->setPosition(ccp(origin.x, origin.y));
 	map_object_group = map->objectGroupNamed("Collision");
 
