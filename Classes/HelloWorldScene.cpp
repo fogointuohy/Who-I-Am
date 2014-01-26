@@ -64,7 +64,7 @@ bool HelloWorld::init()
 		
 	world = new b2World(gravity);
 	debug_draw = new GLESDebugDraw( 32.0f );
-	//world->SetDebugDraw(debug_draw);
+	world->SetDebugDraw(debug_draw);
 
 	map = CCTMXTiledMap::create("map.tmx");
 	map->setPosition(ccp(origin.x, origin.y));
@@ -75,38 +75,63 @@ bool HelloWorld::init()
 	CCDictionary *dictionary;
 	CCString string;
 
-	dictionary = map_object_group->objectNamed("Outline");
-	string = (*dictionary->valueForKey("polyline"));
+	/*dictionary = map_object_group->objectNamed("Outline");
+	string = (*dictionary->valueForKey("polyline"));*/
 
 	std::string parse = string.getCString();
 	std::istringstream is(parse);
 	int i = 0;
 	b2Vec2 vertices[300];
 
-	for(i = 0; is.good(); i++)
+	CCPoint position;
+
+	for (int j = 0; j < 4; j++)
 	{
-		int x,y;
-		char comma;
-		is >> x >> comma >> y;
-		std::cout << x << ", " << y << std::endl;
-		vertices[i].x = (x / PTM_RATIO / CC_CONTENT_SCALE_FACTOR());
-		vertices[i].y = (y / PTM_RATIO / CC_CONTENT_SCALE_FACTOR()) * -1;
+		CCString * test = CCString::create("Outline" + std::to_string(j));
+		dictionary = map_object_group->objectNamed(test->getCString());
+		string = (*dictionary->valueForKey("polyline"));
+		
+		float actualY = (*dictionary->valueForKey("y")).floatValue() + origin.y + 30;
+		float actualX = (*dictionary->valueForKey("x")).floatValue() + origin.x ;
+
+		position.x = actualX / PTM_RATIO / CC_CONTENT_SCALE_FACTOR();
+		position.y = actualY / PTM_RATIO / CC_CONTENT_SCALE_FACTOR();
+
+		std::string parse = string.getCString();
+		std::istringstream is(parse);
+		b2Vec2 vertices[300];
+		vertices->SetZero();
+
+		
+		
+
+		for(i = 0; is.good(); i++)
+		{
+			int x,y;
+			char comma;
+			is >> x >> comma >> y;
+			std::cout << x << ", " << y << std::endl;
+			vertices[i].x = (x / PTM_RATIO / CC_CONTENT_SCALE_FACTOR());
+			vertices[i].y = (y / PTM_RATIO / CC_CONTENT_SCALE_FACTOR()) * -1;
+		}
+
+		b2ChainShape boundaries;
+		boundaries.CreateChain(vertices, i);
+
+		b2FixtureDef boundariesFixtureShape;
+		b2BodyDef boundariesBodayBef;
+
+		boundariesFixtureShape.shape = &boundaries;
+		boundariesFixtureShape.friction = 3;
+		boundariesFixtureShape.userData = (void*)1;
+
+		boundariesBodayBef.position.Set(position.x,position.y);
+		
+		b2Body* bound_body = world->CreateBody(&boundariesBodayBef);
+		bound_body->CreateFixture(&boundariesFixtureShape);
 	}
 
-	b2ChainShape boundaries;
-	boundaries.CreateChain(vertices, i);
 
-	b2FixtureDef boundariesFixtureShape;
-	b2BodyDef boundariesBodayBef;
-
-	boundariesFixtureShape.shape = &boundaries;
-	boundariesFixtureShape.friction = 3;
-	boundariesFixtureShape.userData = (void*)1;
-
-	boundariesBodayBef.position.Set(origin.x, (30 + origin.y) / PTM_RATIO /CC_CONTENT_SCALE_FACTOR());
-		
-	b2Body* bound_body = world->CreateBody(&boundariesBodayBef);
-	bound_body->CreateFixture(&boundariesFixtureShape);
 
 	PlayerBodyDef.type = b2BodyType::b2_dynamicBody;
 
